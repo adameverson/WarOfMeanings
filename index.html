@@ -1,0 +1,234 @@
+<html>
+	<head>
+		<title>
+			War of Meanings
+		</title>
+		<script>
+			class Dicionario {
+				constructor(lingua, palavras){
+					this.lingua = lingua;
+					this.palavras = palavras;
+				}
+				
+				lingua(){
+					return this.lingua;
+				}
+
+				palavras(){
+					return this.palavras;
+				}
+			}
+
+			var dicionarioDePortugues = new Dicionario("Portugues", 
+[
+"oi", 
+"tchau", 
+"quadro",
+"foto",
+"computador",
+"travesseiro",
+"cadeira",
+"mala",
+"escrivaninha",
+"guarda roupa",
+"roda",
+"apoio",
+"parede",
+"tijolo",
+"estrutura",
+"piso",
+"toalha",
+"escova",
+"escova de dente",
+"sala",
+"banheiro",
+"ônibus"
+]
+);
+			var dicionarioDeIngles = new Dicionario("Ingles", 
+[
+"hi", 
+"bye",
+"frame",
+"photograph", 
+"computer",
+"pillow",
+"chair",
+"suitcase",
+"writing desk",
+"wardrobe",
+"wheel",
+"support",
+"wall",
+"brick",
+"structure",
+"floor",
+"towel",
+"brush",
+"toothbrush",
+"living room",
+"bathroom",
+"bus"
+]
+);
+		
+			var id = 0;
+			var idmin = 0;
+			var idmax = 1;
+
+			var idpalavra = 0;
+			var idpalavramin = 0;
+			var idpalavramax = dicionarioDePortugues.palavras.length - 1;
+
+			var dicionario = [dicionarioDePortugues.lingua, dicionarioDeIngles.lingua];
+			var palavra = [dicionarioDePortugues.palavras, dicionarioDeIngles.palavras];
+
+			var palavraNova = false;
+
+			function preencher(){
+				document.getElementById('celula1').innerHTML = dicionario[id];
+				document.getElementById('celula2').innerHTML = palavra[id][idpalavra];
+			}
+
+			function esquerda(){
+				if(id-1 >= idmin){
+					id--;
+				}else{
+					id = idmax;
+				}
+				preencher();
+			}
+			
+			function direita(){
+				if(id+1 <= idmax){
+					id++;
+				}else{
+					id = idmin;
+				}
+				preencher();
+			}
+
+			function esquerdapalavra(){
+				if(idpalavra-1 >= idpalavramin){
+					idpalavra--;
+				}else{
+					idpalavra = idpalavramax;
+				}
+				preencher();
+			}
+			
+			function direitapalavra(){
+				if(idpalavra+1 <= idpalavramax){
+					idpalavra++;
+				}else{
+					idpalavra = idpalavramin;
+				}
+				preencher();
+			}
+
+			function buscarsignificado(){
+				for(let i = idpalavramin; i <= idpalavramax; i++){
+					if(document.getElementById('entradaBusca').value == palavra[0][i]){
+						id = 1;
+						idpalavra = i;
+						preencher();
+					}else if(document.getElementById('entradaBusca').value == palavra[1][i]){
+						id = 0;
+						idpalavra = i;
+						preencher();
+					}
+				}
+			}
+
+			function getRandomIntInclusive(min, max) {
+				min = Math.ceil(min);
+				max = Math.floor(max);
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
+
+			function randomPalavra(){
+				idpalavra = getRandomIntInclusive(idpalavramin, idpalavramax);
+				preencher();
+				palavraNova = true;
+			}
+
+			function animacaoPonto(ponto){
+				let timedelay = 100;
+
+				document.getElementById('ponto').innerHTML = ponto;
+				if(ponto == "+1"){
+					document.getElementById('ponto').style.color = "mediumseagreen";
+				}else if(ponto == "-1"){
+					document.getElementById('ponto').style.color = "tomato";
+				}
+				document.getElementById('ponto').style.visibility = "visible";
+
+				while(timedelay < 1000){
+					setTimeout(function(){document.getElementById('ponto').style.top = (parseInt(document.getElementById('ponto').style.top.split('p')[0]) - 40);}, timedelay);
+					timedelay = timedelay + 100;
+				}
+
+				setTimeout(function(){
+					document.getElementById('ponto').style.visibility = "hidden";
+					if(ponto == "+1"){
+						document.getElementById('score').innerHTML = parseInt(document.getElementById('score').innerHTML) + 1;
+					}else if(ponto == "-1"){
+						if(parseInt((document.getElementById('score').innerHTML) - 1) >= 0){
+							document.getElementById('score').innerHTML = parseInt(document.getElementById('score').innerHTML) - 1;
+						}
+					}
+					
+					document.getElementById('ponto').style.top = 420;
+				}, timedelay);
+			}
+
+			function verificarPalavra(){
+				if(document.getElementById('entradaVerifica').value == palavra[0][idpalavra] && document.getElementById('celula2').innerHTML == palavra[1][idpalavra]){
+					if(palavraNova){
+						document.getElementById('saidaVerifica').innerHTML = "Correto!";
+						palavraNova = false;
+						animacaoPonto("+1");
+					}else{
+						document.getElementById('saidaVerifica').innerHTML = "Correto! Mas a palavra tem que ser randômica para gerar score.";
+					}
+				}else if(document.getElementById('entradaVerifica').value == palavra[1][idpalavra] && document.getElementById('celula2').innerHTML == palavra[0][idpalavra]){
+					if(palavraNova){
+						document.getElementById('saidaVerifica').innerHTML = "Correto!";
+						palavraNova = false;
+						animacaoPonto("+1");
+					}else{
+						document.getElementById('saidaVerifica').innerHTML = "Correto! Mas a palavra tem que ser randômica para gerar score.";
+					}
+				}else{
+					document.getElementById('saidaVerifica').innerHTML = "Errando também se aprende!";
+					if(parseInt((document.getElementById('score').innerHTML) - 1) >= 0){
+						animacaoPonto("-1");
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<font size="5" color="mediumseagreen"><p align="center">Score: </p><p id="score" align="center">0</p></font>
+		<p align="center">Digite uma palavra: <input id="entradaBusca" type=text> <input type=button value="buscar" onclick="buscarsignificado();"></p>
+		<p align="center"><input type=button value="<" onclick="esquerda();"> Dicionário <input type=button value=">" onclick="direita();"></p>
+		<p align="center"><input type=button value="<" onclick="esquerdapalavra();"> Palavra <input type=button value=">" onclick="direitapalavra();"> <input type=button value="Random" onclick="randomPalavra();"></p>
+		<table align="center">
+			<tr>
+				<td id="celula1" align="center">
+					
+				</td>
+			<tr>
+				<td id="celula2" align="center">
+					
+				</td>
+		</table>
+		<p align="center">Digite uma palavra: <input id="entradaVerifica" type=text> <input type=button value="verificar" onclick="verificarPalavra();"></p>
+		<font size="5" color="mediumseagreen"><p align="center" id="saidaVerifica"></p></font>
+		<p id="ponto" style="position: fixed; top: 420; left: 625; color: mediumseagreen; font-size: 20; visibility: hidden;">+1</p>
+		
+		<script>
+			preencher();
+		</script>
+	</body>
+</html>
