@@ -169,20 +169,24 @@
 			}
 
 			function buscarsignificado(){
+				let flagFound = false;
 				for(let i = idpalavramin; i <= idpalavramax; i++){
 					if(document.getElementById('entradaBusca').value == palavra[0][i]){
 						document.getElementById('saidaGeral').innerHTML = "";
 						id = 1;
 						idpalavra = i;
 						preencher();
+						flagFound = true;
 					}else if(document.getElementById('entradaBusca').value == palavra[1][i]){
 						document.getElementById('saidaGeral').innerHTML = "";
 						id = 0;
 						idpalavra = i;
 						preencher();
-					}else
-						document.getElementById('saidaGeral').innerHTML = "A palavra não está no dicionário.";
+						flagFound = true;
+					}
 				}
+				if(!flagFound)
+					document.getElementById('saidaGeral').innerHTML = "A palavra não está no dicionário.";
 			}
 
 			function getRandomIntInclusive(min, max) {
