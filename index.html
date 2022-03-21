@@ -19,11 +19,9 @@
 				}
 			}
 
-			var dicionarioDePortugues = new Dicionario("Portugues", 
+			var dicionarioDePortugues = new Dicionario("Português", 
 [
-"oi", 
-"tchau", 
-"quadro",
+"pintura",
 "foto",
 "computador",
 "travesseiro",
@@ -42,14 +40,34 @@
 "escova de dente",
 "sala",
 "banheiro",
-"ônibus"
+"ônibus",
+"tomada",
+"casaco",
+"caixa",
+"colchão",
+"janela",
+"sofá",
+"televisão",
+"varanda",
+"corrimão",
+"plugue",
+"cabo",
+"monitor",
+"banana",
+"carregador",
+"câmera",
+"cama",
+"pia",
+"antena",
+"chinelo",
+"dicionário",
+"couro",
+"arame"
 ]
 );
-			var dicionarioDeIngles = new Dicionario("Ingles", 
+			var dicionarioDeIngles = new Dicionario("Inglês", 
 [
-"hi", 
-"bye",
-"frame",
+"painting",
 "photograph", 
 "computer",
 "pillow",
@@ -68,10 +86,34 @@
 "toothbrush",
 "living room",
 "bathroom",
-"bus"
+"bus",
+"electrical outlet",
+"coat",
+"box",
+"mattress",
+"window",
+"sofa",
+"television",
+"balcony",
+"handrail",
+"plug",
+"cable",
+"monitor",
+"banana",
+"charger",
+"camera",
+"bed",
+"sink",
+"antenna",
+"slipper",
+"dictionary",
+"leather",
+"wire"
 ]
 );
 		
+			var numVezesTerminouDicionario = 0;			
+						
 			var id = 0;
 			var idmin = 0;
 			var idmax = 1;
@@ -129,14 +171,17 @@
 			function buscarsignificado(){
 				for(let i = idpalavramin; i <= idpalavramax; i++){
 					if(document.getElementById('entradaBusca').value == palavra[0][i]){
+						document.getElementById('saidaGeral').innerHTML = "";
 						id = 1;
 						idpalavra = i;
 						preencher();
 					}else if(document.getElementById('entradaBusca').value == palavra[1][i]){
+						document.getElementById('saidaGeral').innerHTML = "";
 						id = 0;
 						idpalavra = i;
 						preencher();
-					}
+					}else
+						document.getElementById('saidaGeral').innerHTML = "A palavra não está no dicionário.";
 				}
 			}
 
@@ -191,11 +236,14 @@
 						palavra[0].splice(idpalavra, 1);
 						palavra[1].splice(idpalavra, 1);
 						if(idpalavramax == 0){
-							document.getElementById('saidaGeral').innerHTML = "Você terminou o dicionário parabéns.";
+							numVezesTerminouDicionario++;
+							document.getElementById('saidaGeral').innerHTML = "Você terminou o dicionário " + numVezesTerminouDicionario + " vez(es), parabéns!";
 							palavra = [dicionarioDePortugues.palavras.slice(), dicionarioDeIngles.palavras.slice()];
 							idpalavramax = dicionarioDePortugues.palavras.length - 1;
-						}else
+						}else{
+							document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
 							idpalavramax--;
+						}
 					}else{
 						document.getElementById('saidaVerifica').innerHTML = "Correto! Mas a palavra tem que ser randômica para gerar score.";
 					}
@@ -207,11 +255,14 @@
 						palavra[0].splice(idpalavra, 1);
 						palavra[1].splice(idpalavra, 1);
 						if(idpalavramax == 0){
-							document.getElementById('saidaGeral').innerHTML = "Você terminou o dicionário parabéns.";
+							numVezesTerminouDicionario++;
+							document.getElementById('saidaGeral').innerHTML = "Você terminou o dicionário " + numVezesTerminouDicionario + " vez(es), parabéns!";
 							palavra = [dicionarioDePortugues.palavras.slice(), dicionarioDeIngles.palavras.slice()];
 							idpalavramax = dicionarioDePortugues.palavras.length - 1;
-						}else
+						}else{
+							document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
 							idpalavramax--;
+						}
 					}else{
 						document.getElementById('saidaVerifica').innerHTML = "Correto! Mas a palavra tem que ser randômica para gerar score.";
 					}
