@@ -102,7 +102,7 @@
 "cinto",
 "calça",
 "colete",
-"luva",
+"luvas",
 "vestido",
 "anel",
 "saia",
@@ -235,24 +235,31 @@
 			}
 
 			function esquerda(){
+				/*
 				if(id-1 >= idmin){
 					id--;
 				}else{
 					id = idmax;
 				}
+				*/
+				id = 0;
 				preencher();
 			}
 			
 			function direita(){
+				/*
 				if(id+1 <= idmax){
 					id++;
 				}else{
 					id = idmin;
 				}
+				*/
+				id = 1;
 				preencher();
 			}
 
 			function esquerdapalavra(){
+				palavraNova = false;
 				if(idpalavra-1 >= idpalavramin){
 					idpalavra--;
 				}else{
@@ -262,6 +269,7 @@
 			}
 			
 			function direitapalavra(){
+				palavraNova = false;
 				if(idpalavra+1 <= idpalavramax){
 					idpalavra++;
 				}else{
@@ -273,14 +281,12 @@
 			function buscarsignificado(){
 				let flagFound = false;
 				for(let i = idpalavramin; i <= idpalavramax; i++){
-					if(document.getElementById('entradaBusca').value == palavra[0][i]){
-						document.getElementById('saidaGeral').innerHTML = "";
+					if(document.getElementById('entradaVerifica').value == palavra[0][i]){
 						id = 1;
 						idpalavra = i;
 						preencher();
 						flagFound = true;
-					}else if(document.getElementById('entradaBusca').value == palavra[1][i]){
-						document.getElementById('saidaGeral').innerHTML = "";
+					}else if(document.getElementById('entradaVerifica').value == palavra[1][i]){
 						id = 0;
 						idpalavra = i;
 						preencher();
@@ -288,7 +294,11 @@
 					}
 				}
 				if(!flagFound)
-					document.getElementById('saidaGeral').innerHTML = "A palavra não está no dicionário.";
+					document.getElementById('saidaVerifica').innerHTML = "A palavra não está no dicionário.";
+				else{
+					document.getElementById('saidaVerifica').innerHTML = "";
+					palavraNova = false;
+				}
 			}
 
 			function getRandomIntInclusive(min, max) {
@@ -298,9 +308,12 @@
 			}
 
 			function randomPalavra(){
+				id = 1;
 				idpalavra = getRandomIntInclusive(idpalavramin, idpalavramax);
 				preencher();
 				palavraNova = true;
+				document.getElementById("entradaVerifica").value = "";
+				document.getElementById('entradaVerifica').focus();
 			}
 
 			function animacaoPonto(ponto){
@@ -337,7 +350,6 @@
 				if(document.getElementById('entradaVerifica').value == palavra[0][idpalavra] && document.getElementById('celula2').innerHTML == palavra[1][idpalavra]){
 					if(palavraNova){
 						document.getElementById('saidaVerifica').innerHTML = "Correto!";
-						palavraNova = false;
 						animacaoPonto("+1");
 						palavra[0].splice(idpalavra, 1);
 						palavra[1].splice(idpalavra, 1);
@@ -350,13 +362,13 @@
 							document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
 							idpalavramax--;
 						}
+						randomPalavra();
 					}else{
 						document.getElementById('saidaVerifica').innerHTML = "Correto! Mas a palavra tem que ser randômica para gerar score.";
 					}
 				}else if(document.getElementById('entradaVerifica').value == palavra[1][idpalavra] && document.getElementById('celula2').innerHTML == palavra[0][idpalavra]){
 					if(palavraNova){
 						document.getElementById('saidaVerifica').innerHTML = "Correto!";
-						palavraNova = false;
 						animacaoPonto("+1");
 						palavra[0].splice(idpalavra, 1);
 						palavra[1].splice(idpalavra, 1);
@@ -369,23 +381,31 @@
 							document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
 							idpalavramax--;
 						}
+						randomPalavra();
 					}else{
 						document.getElementById('saidaVerifica').innerHTML = "Correto! Mas a palavra tem que ser randômica para gerar score.";
 					}
 				}else{
-					document.getElementById('saidaVerifica').innerHTML = "Errando também se aprende!";
-					if(parseInt((document.getElementById('score').innerHTML) - 1) >= 0){
-						animacaoPonto("-1");
+					if(palavraNova){
+						palavra[0].push(palavra[0][idpalavra]);
+						palavra[1].push(palavra[1][idpalavra]);
+						idpalavramax++;
+						document.getElementById('saidaVerifica').innerHTML = "Errando também se aprende!";
+						document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
+						if(parseInt((document.getElementById('score').innerHTML) - 1) >= 0){
+							animacaoPonto("-1");
+						}
+					}else{
+						document.getElementById('saidaVerifica').innerHTML = "Errando também se aprende! Mas a palavra tem que ser randômica para gerar score.";
 					}
 				}
 			}
 		</script>
 	</head>
-	<body>
+	<body onKeyUp="if (event.which == 13) verificarPalavra();">
 		<font size="5" color="mediumseagreen"><p align="center">Score: </p><p id="score" align="center">0</p></font>
-		<p align="center">Digite uma palavra: <input id="entradaBusca" type=text> <input type=button value="buscar" onclick="buscarsignificado();"></p>
-		<p align="center"><input type=button value="<" onclick="esquerda();"> Dicionário <input type=button value=">" onclick="direita();"></p>
-		<p align="center"><input type=button value="<" onclick="esquerdapalavra();"> Palavra <input type=button value=">" onclick="direitapalavra();"> <input type=button value="Random" onclick="randomPalavra();"></p>
+		<p align="center"><!--<input type=button value="<" onmousedown="esquerda();" onmouseup="esquerda(); document.getElementById('entradaVerifica').focus();">--> Dicionário <input type=button value=">" onmousedown="esquerda();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"></p>
+		<p align="center"><!--<input type=button value="<" onmousedown="esquerdapalavra();" onmouseup="document.getElementById('entradaVerifica').focus();">--> Palavra <input type=button value=">" onclick="direitapalavra(); document.getElementById('entradaVerifica').focus();"></p>
 		<table align="center">
 			<tr>
 				<td id="celula1" align="center">
@@ -396,13 +416,13 @@
 					
 				</td>
 		</table>
-		<p align="center">Digite uma palavra: <input id="entradaVerifica" type=text> <input type=button value="verificar" onclick="verificarPalavra();"></p>
+		<p align="center">Digite a tradução da palavra: <input id="entradaVerifica" type=text autocomplete="off"> <input type=button value="verificar" onclick="verificarPalavra(); document.getElementById('entradaVerifica').focus();"> <input type=button value="buscar" onmousedown="buscarsignificado();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"> <input type=button value="randômica" onclick="randomPalavra();"></p>
 		<font size="5" color="mediumseagreen"><p align="center" id="saidaVerifica"></p></font>
 		<font size="5" color="mediumseagreen"><p align="center" id="saidaGeral"></p></font>
 		<p id="ponto" style="position: fixed; top: 420; left: 625; color: mediumseagreen; font-size: 20; visibility: hidden;">+1</p>
 		
 		<script>
-			preencher();
+			randomPalavra();
 		</script>
 	</body>
 </html>
