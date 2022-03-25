@@ -402,7 +402,7 @@
 			}
 		</script>
 	</head>
-	<body onKeyUp="if (event.which == 13) verificarPalavra();">
+	<body onKeyDown="if (event.which == 39) esquerda();" onKeyUp="if (event.which == 13) verificarPalavra(); if (event.which == 39) direita();">
 		<font size="5" color="mediumseagreen"><p align="center">Score: </p><p id="score" align="center">0</p></font>
 		<p align="center"><!--<input type=button value="<" onmousedown="esquerda();" onmouseup="esquerda(); document.getElementById('entradaVerifica').focus();">--> Dicionário <input type=button value=">" onmousedown="esquerda();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"></p>
 		<p align="center"><!--<input type=button value="<" onmousedown="esquerdapalavra();" onmouseup="document.getElementById('entradaVerifica').focus();">--> Palavra <input type=button value=">" onclick="direitapalavra(); document.getElementById('entradaVerifica').focus();"></p>
@@ -422,6 +422,7 @@
 		<p id="ponto" style="position: fixed; top: 420; left: 625; color: mediumseagreen; font-size: 20; visibility: hidden;">+1</p>
 		
 		<script>
+			document.getElementById('saidaGeral').innerHTML = "Use 'Enter' e 'Seta direita' para maior praticidade";
 			randomPalavra();
 		</script>
 	</body>
