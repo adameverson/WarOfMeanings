@@ -316,6 +316,47 @@
 				document.getElementById('entradaVerifica').focus();
 			}
 
+			function exportar(){
+				document.getElementById("arqdicionario").value = "Português#";
+				for(let i = 0; i < palavra[0].length; i++){
+					document.getElementById("arqdicionario").value += "|" + palavra[0][i];
+				}
+
+				document.getElementById("arqdicionario").value += "#Inglês#";
+				for(let i = 0; i < palavra[0].length; i++){
+					document.getElementById("arqdicionario").value += "|" + palavra[1][i];
+				}
+				
+				document.getElementById('arqdicionario').focus();
+			}
+
+			function importar(){
+				let txtDicionario = document.getElementById("arqdicionario").value.split('#');
+
+				if(txtDicionario.length != 4)
+					alert("Dincionário fora do formato.");
+				
+				let txtPortugues = txtDicionario[1].split('|');
+				let txtIngles = txtDicionario[3].split('|');
+				
+				if(txtPortugues.length != txtIngles.length)
+					alert("O Dincionário deve possuir a mesma quantidade de palavras tanto em Português como em Inglês.");
+				
+				palavra[0] = [];
+				palavra[1] = [];
+
+				for(let i = 1; i < txtPortugues.length; i++){
+					palavra[0].push(txtPortugues[i]);
+					palavra[1].push(txtIngles[i]);
+				}
+				
+				idpalavramax = palavra[0].length - 1;
+
+				document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
+				
+				randomPalavra();
+			}
+
 			function animacaoPonto(ponto){
 				let timedelay = 100;
 
@@ -420,6 +461,9 @@
 		<font size="5" color="mediumseagreen"><p align="center" id="saidaVerifica"></p></font>
 		<font size="5" color="mediumseagreen"><p align="center" id="saidaGeral"></p></font>
 		<p id="ponto" style="position: fixed; top: 420; left: 625; color: mediumseagreen; font-size: 20; visibility: hidden;">+1</p>
+
+		<p align="center"><textarea id="arqdicionario" rows="4" cols="50" placeholder="Copie e cole seu dicionário aqui..."></textarea></p>
+		<p align="center"> <input type=button value="Exportar" onclick="exportar();"> <input type=button value="Importar" onclick="importar();"> </p>
 		
 		<script>
 			document.getElementById('saidaGeral').innerHTML = "Use 'Enter' e 'Seta direita' para maior praticidade";
