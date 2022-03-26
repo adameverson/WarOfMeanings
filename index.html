@@ -132,7 +132,7 @@
 "sacola",
 "Bolsa",
 "carteira",
-"fecho eclair",
+"zíper",
 "Assistir",
 "chaves",
 "dinheiro",
@@ -433,7 +433,7 @@
 "trator",
 "moto",
 "barco",
-"motor de incêndio",
+"carro de bombeiros",
 "hospital",
 "braço quebrado",
 "olho roxo",
@@ -1302,6 +1302,14 @@
 				console.log("Palavras Dicionário 2: " + palavra[1].length);
 			}
 
+			function adicionarPalavraAtual(){
+				palavra[0].push(palavra[0][idpalavra]);
+				palavra[1].push(palavra[1][idpalavra]);
+				idpalavramax++;
+
+				document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
+			}
+
 			function animacaoPonto(ponto){
 				let timedelay = 100;
 
@@ -1373,11 +1381,8 @@
 					}
 				}else{
 					if(palavraNova){
-						palavra[0].push(palavra[0][idpalavra]);
-						palavra[1].push(palavra[1][idpalavra]);
-						idpalavramax++;
+						adicionarPalavraAtual();
 						document.getElementById('saidaVerifica').innerHTML = "Errando também se aprende!";
-						document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
 						if(parseInt((document.getElementById('score').innerHTML) - 1) >= 0){
 							animacaoPonto("-1");
 						}
@@ -1388,7 +1393,7 @@
 			}
 		</script>
 	</head>
-	<body onKeyDown="if (event.which == 39) esquerda();" onKeyUp="if (event.which == 13) verificarPalavra(); if (event.which == 39) direita();">
+	<body onKeyDown="if (event.which == 39) esquerda();" onKeyUp="if (event.which == 13) verificarPalavra(); if (event.which == 39){ direita(); if(palavraNova) adicionarPalavraAtual(); }">
 		<font size="5" color="mediumseagreen"><p align="center">Score: </p><p id="score" align="center">0</p></font>
 		<p align="center"><!--<input type=button value="<" onmousedown="esquerda();" onmouseup="esquerda(); document.getElementById('entradaVerifica').focus();">--> Dicionário <input type=button value=">" onmousedown="esquerda();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"></p>
 		<p align="center"><!--<input type=button value="<" onmousedown="esquerdapalavra();" onmouseup="document.getElementById('entradaVerifica').focus();">--> Palavra <input type=button value=">" onclick="direitapalavra(); document.getElementById('entradaVerifica').focus();"></p>
