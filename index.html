@@ -1166,7 +1166,10 @@
 					id = idmax;
 				}
 				*/
-				id = 0;
+				if(idioma.options[idioma.selectedIndex].value == "ingles")
+					id = 0;
+				else if(idioma.options[idioma.selectedIndex].value == "portugues")
+					id = 1;
 				preencher();
 			}
 			
@@ -1178,7 +1181,10 @@
 					id = idmin;
 				}
 				*/
-				id = 1;
+				if(idioma.options[idioma.selectedIndex].value == "ingles")
+					id = 1;
+				else if(idioma.options[idioma.selectedIndex].value == "portugues")
+					id = 0;
 				preencher();
 			}
 
@@ -1232,7 +1238,10 @@
 			}
 
 			function randomPalavra(){
-				id = 1;
+				if(idioma.options[idioma.selectedIndex].value == "ingles")
+					id = 1;
+				else if(idioma.options[idioma.selectedIndex].value == "portugues")
+					id = 0;
 				idpalavra = getRandomIntInclusive(idpalavramin, idpalavramax);
 				preencher();
 				palavraNova = true;
@@ -1283,6 +1292,15 @@
 				document.getElementById('entradaVerifica').focus();
 				
 				randomPalavra();
+			}
+
+			function alterarIdioma(){
+				if(idioma.options[idioma.selectedIndex].value == "ingles")
+					id = 1; 
+				else if(idioma.options[idioma.selectedIndex].value == "portugues")
+					id = 0; 
+				preencher();
+				document.getElementById('entradaVerifica').focus();
 			}
 			
 			function verificarSistema(){
@@ -1383,6 +1401,13 @@
 	</head>
 	<body onKeyDown="if (event.which == 39) esquerda();" onKeyUp="if (event.which == 13) verificarPalavra(); if (event.which == 38) acertou('Se sabe parabéns!');  if (event.which == 39){ direita(); if(palavraNova) adicionarPalavraAtual(); }">
 		<font size="5" color="mediumseagreen"><p align="center">Score: </p><p id="score" align="center">0</p></font>
+		<p align="center">
+		<label for="idioma">Escolha o idioma principal:</label>
+		<select id="idioma" onchange="alterarIdioma();">
+  			<option value="ingles" selected="selected">Inglês</option>
+  			<option value="portugues">Português</option>
+		</select>
+		</p>
 		<p align="center"><!--<input type=button value="<" onmousedown="esquerda();" onmouseup="esquerda(); document.getElementById('entradaVerifica').focus();">--> Dicionário <input type=button value=">" onmousedown="esquerda();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"></p>
 		<p align="center"><!--<input type=button value="<" onmousedown="esquerdapalavra();" onmouseup="document.getElementById('entradaVerifica').focus();">--> Palavra <input type=button value=">" onclick="direitapalavra(); document.getElementById('entradaVerifica').focus();"></p>
 		<table align="center">
