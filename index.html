@@ -1340,45 +1340,33 @@
 				}, timedelay);
 			}
 
+			function acertou(mensagem){
+				if(palavraNova){
+					document.getElementById('saidaVerifica').innerHTML = mensagem;
+					animacaoPonto("+1");
+					palavra[0].splice(idpalavra, 1);
+					palavra[1].splice(idpalavra, 1);
+					if(idpalavramax == 0){
+						numVezesTerminouDicionario++;
+						document.getElementById('saidaGeral').innerHTML = "Você terminou o dicionário " + numVezesTerminouDicionario + " vez(es), parabéns!";
+						palavra = [dicionarioDePortugues.palavras.slice(), dicionarioDeIngles.palavras.slice()];
+						idpalavramax = dicionarioDePortugues.palavras.length - 1;
+					}else{
+						document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
+						idpalavramax--;
+					}
+					randomPalavra();
+				}else{
+					document.getElementById('saidaVerifica').innerHTML = mensagem + " Mas a palavra tem que ser randômica para gerar score.";
+				}
+			}
+
 			function verificarPalavra(){
-				if(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[0][idpalavra].toLowerCase() && document.getElementById('celula2').innerHTML.toLowerCase() == palavra[1][idpalavra].toLowerCase()){
-					if(palavraNova){
-						document.getElementById('saidaVerifica').innerHTML = "Correto!";
-						animacaoPonto("+1");
-						palavra[0].splice(idpalavra, 1);
-						palavra[1].splice(idpalavra, 1);
-						if(idpalavramax == 0){
-							numVezesTerminouDicionario++;
-							document.getElementById('saidaGeral').innerHTML = "Você terminou o dicionário " + numVezesTerminouDicionario + " vez(es), parabéns!";
-							palavra = [dicionarioDePortugues.palavras.slice(), dicionarioDeIngles.palavras.slice()];
-							idpalavramax = dicionarioDePortugues.palavras.length - 1;
-						}else{
-							document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
-							idpalavramax--;
-						}
-						randomPalavra();
-					}else{
-						document.getElementById('saidaVerifica').innerHTML = "Correto! Mas a palavra tem que ser randômica para gerar score.";
-					}
-				}else if(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[1][idpalavra].toLowerCase() && document.getElementById('celula2').innerHTML.toLowerCase() == palavra[0][idpalavra].toLowerCase()){
-					if(palavraNova){
-						document.getElementById('saidaVerifica').innerHTML = "Correto!";
-						animacaoPonto("+1");
-						palavra[0].splice(idpalavra, 1);
-						palavra[1].splice(idpalavra, 1);
-						if(idpalavramax == 0){
-							numVezesTerminouDicionario++;
-							document.getElementById('saidaGeral').innerHTML = "Você terminou o dicionário " + numVezesTerminouDicionario + " vez(es), parabéns!";
-							palavra = [dicionarioDePortugues.palavras.slice(), dicionarioDeIngles.palavras.slice()];
-							idpalavramax = dicionarioDePortugues.palavras.length - 1;
-						}else{
-							document.getElementById('saidaGeral').innerHTML = "Palavras restantes: " + palavra[0].length;
-							idpalavramax--;
-						}
-						randomPalavra();
-					}else{
-						document.getElementById('saidaVerifica').innerHTML = "Correto! Mas a palavra tem que ser randômica para gerar score.";
-					}
+				if(
+					(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[0][idpalavra].toLowerCase() && document.getElementById('celula2').innerHTML.toLowerCase() == palavra[1][idpalavra].toLowerCase()) ||
+					(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[1][idpalavra].toLowerCase() && document.getElementById('celula2').innerHTML.toLowerCase() == palavra[0][idpalavra].toLowerCase())
+				){
+					acertou("Correto!");
 				}else{
 					if(palavraNova){
 						adicionarPalavraAtual();
@@ -1393,7 +1381,7 @@
 			}
 		</script>
 	</head>
-	<body onKeyDown="if (event.which == 39) esquerda();" onKeyUp="if (event.which == 13) verificarPalavra(); if (event.which == 39){ direita(); if(palavraNova) adicionarPalavraAtual(); }">
+	<body onKeyDown="if (event.which == 39) esquerda();" onKeyUp="if (event.which == 13) verificarPalavra(); if (event.which == 38) acertou('Se sabe parabéns!');  if (event.which == 39){ direita(); if(palavraNova) adicionarPalavraAtual(); }">
 		<font size="5" color="mediumseagreen"><p align="center">Score: </p><p id="score" align="center">0</p></font>
 		<p align="center"><!--<input type=button value="<" onmousedown="esquerda();" onmouseup="esquerda(); document.getElementById('entradaVerifica').focus();">--> Dicionário <input type=button value=">" onmousedown="esquerda();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"></p>
 		<p align="center"><!--<input type=button value="<" onmousedown="esquerdapalavra();" onmouseup="document.getElementById('entradaVerifica').focus();">--> Palavra <input type=button value=">" onclick="direitapalavra(); document.getElementById('entradaVerifica').focus();"></p>
@@ -1407,7 +1395,7 @@
 					
 				</td>
 		</table>
-		<p align="center">Digite a tradução da palavra: <input id="entradaVerifica" type=text autocomplete="off"> <input type=button value="verificar" onclick="verificarPalavra(); document.getElementById('entradaVerifica').focus();"> <input type=button value="buscar" onmousedown="buscarsignificado();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"> <input type=button value="randômica" onclick="randomPalavra();"></p>
+		<p align="center">Digite a tradução da palavra: <input id="entradaVerifica" type=text autocomplete="off"> <input type=button value="verificar" onclick="verificarPalavra(); document.getElementById('entradaVerifica').focus();"> <input type=button value="buscar" onmousedown="buscarsignificado();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"> <input type=button value="randômica" onclick="randomPalavra();"> <input type=button value="sei" onclick="acertou('Se sabe parabéns!');"></p>
 		<font size="5" color="mediumseagreen"><p align="center" id="saidaVerifica"></p></font>
 		<font size="5" color="mediumseagreen"><p align="center" id="saidaGeral"></p></font>
 		<p id="ponto" style="position: fixed; top: 420; left: 625; color: mediumseagreen; font-size: 20; visibility: hidden;">+1</p>
@@ -1416,7 +1404,7 @@
 		<p align="center"> <input type=button value="Exportar" onclick="exportar();"> <input type=button value="Importar" onclick="importar();"> </p>
 		
 		<script>
-			document.getElementById('saidaGeral').innerHTML = "Use 'Enter' e 'Seta direita' para maior praticidade";
+			document.getElementById('saidaGeral').innerHTML = "Use 'Enter' e 'Seta direita' para maior praticidade<br>'Seta cima' se souber a palavra";
 			randomPalavra();
 			//verificarSistema();
 		</script>
