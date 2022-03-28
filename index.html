@@ -229,7 +229,7 @@
 "camelo",
 "Lagarto",
 "escrivaninha",
-"ventilador",
+["ventilador", "fã"],
 "aquecedor",
 "capacho",
 "armários",
@@ -1211,16 +1211,38 @@
 			function buscarsignificado(){
 				let flagFound = false;
 				for(let i = idpalavramin; i <= idpalavramax; i++){
-					if(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[0][i].toLowerCase()){
-						id = 1;
-						idpalavra = i;
-						preencher();
-						flagFound = true;
-					}else if(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[1][i].toLowerCase()){
-						id = 0;
-						idpalavra = i;
-						preencher();
-						flagFound = true;
+					if(!Array.isArray(palavra[0][i])){
+						if(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[0][i].toLowerCase()){
+							id = 1;
+							idpalavra = i;
+							preencher();
+							flagFound = true;
+							break;
+						}else if(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[1][i].toLowerCase()){
+							id = 0;
+							idpalavra = i;
+							preencher();
+							flagFound = true;
+							break;
+						}
+					}else{
+						let flagFoundPortuguesPalavra = false;
+						for(let j = 0; j < palavra[0][i].length; j++){
+							if(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[0][i][j].toLowerCase())
+								flagFoundPortuguesPalavra = true
+						}
+						if(flagFoundPortuguesPalavra){
+							id = 1;
+							idpalavra = i;
+							preencher();
+							flagFound = true;
+						}else if(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[1][i].toLowerCase()){
+							id = 0;
+							idpalavra = i;
+							preencher();
+							flagFound = true;
+							break;
+						}
 					}
 				}
 				if(!flagFound)
@@ -1279,7 +1301,17 @@
 				palavra[1] = [];
 
 				for(let i = 1; i < txtPortugues.length; i++){
-					palavra[0].push(txtPortugues[i]);
+					if(Array.isArray(palavra[0][i])){
+						let auxpalavras = txtPortugues[i].split(',');
+						for(let j = 0; j < auxpalavras.length; j++){
+							palavra[0].push(auxpalavras[j]);
+						}
+					}else{
+						palavra[0].push(txtPortugues[i]);
+					}
+				}
+				
+				for(let i = 1; i < txtPortugues.length; i++){
 					palavra[1].push(txtIngles[i]);
 				}
 				
@@ -1380,8 +1412,17 @@
 			}
 
 			function verificarPalavra(){
+				let flagFoundPortuguesPalavra = false;
+				if(Array.isArray(palavra[0][idpalavra])){
+					for(let i = 0; i < palavra[0][idpalavra].length; i++){
+						if(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[0][idpalavra][i].toLowerCase())
+							flagFoundPortuguesPalavra = true
+					}
+
+				}
+
 				if(
-					(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[0][idpalavra].toLowerCase() && document.getElementById('celula2').innerHTML.toLowerCase() == palavra[1][idpalavra].toLowerCase()) ||
+					(flagFoundPortuguesPalavra || (!Array.isArray(palavra[0][idpalavra]) && document.getElementById('entradaVerifica').value.toLowerCase() == palavra[0][idpalavra].toLowerCase() && document.getElementById('celula2').innerHTML.toLowerCase() == palavra[1][idpalavra].toLowerCase())) ||
 					(document.getElementById('entradaVerifica').value.toLowerCase() == palavra[1][idpalavra].toLowerCase() && document.getElementById('celula2').innerHTML.toLowerCase() == palavra[0][idpalavra].toLowerCase())
 				){
 					acertou("Correto!");
