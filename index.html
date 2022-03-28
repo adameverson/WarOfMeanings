@@ -229,7 +229,7 @@
 "camelo",
 "Lagarto",
 "escrivaninha",
-"fã",
+"ventilador",
 "aquecedor",
 "capacho",
 "armários",
@@ -1408,8 +1408,8 @@
   			<option value="portugues">Português</option>
 		</select>
 		</p>
-		<p align="center"><!--<input type=button value="<" onmousedown="esquerda();" onmouseup="esquerda(); document.getElementById('entradaVerifica').focus();">--> Dicionário <input type=button value=">" onmousedown="esquerda();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"></p>
-		<p align="center"><!--<input type=button value="<" onmousedown="esquerdapalavra();" onmouseup="document.getElementById('entradaVerifica').focus();">--> Palavra <input type=button value=">" onclick="direitapalavra(); document.getElementById('entradaVerifica').focus();"></p>
+		<p align="center"><!--<input type=button value="<" onmousedown="esquerda();" onmouseup="esquerda(); document.getElementById('entradaVerifica').focus();">--> <!--Dicionário--> <!--<input type=button value=">" onmousedown="esquerda();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();">--></p>
+		<p align="center"><!--<input type=button value="<" onmousedown="esquerdapalavra();" onmouseup="document.getElementById('entradaVerifica').focus();">--> Palavra <input type=button value=">" onclick="direitapalavra(); document.getElementById('entradaVerifica').focus();"> <input type=button value="randômica" onclick="randomPalavra();"></p>
 		<table align="center">
 			<tr>
 				<td id="celula1" align="center">
@@ -1420,16 +1420,17 @@
 					
 				</td>
 		</table>
-		<p align="center">Digite a tradução da palavra: <input id="entradaVerifica" type=text autocomplete="off"> <input type=button value="verificar" onclick="verificarPalavra(); document.getElementById('entradaVerifica').focus();"> <input type=button value="buscar" onmousedown="buscarsignificado();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"> <input type=button value="randômica" onclick="randomPalavra();"> <input type=button value="sei" onclick="acertou('Se sabe parabéns!');"></p>
+		<p align="center"><input type=button value="sei" onclick="acertou('Se sabe parabéns!');"> <input type=button value="espiar" onmousedown="esquerda();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"></p>
 		<font size="5" color="mediumseagreen"><p align="center" id="saidaVerifica"></p></font>
 		<font size="5" color="mediumseagreen"><p align="center" id="saidaGeral"></p></font>
 		<p id="ponto" style="position: fixed; top: 420; left: 625; color: mediumseagreen; font-size: 20; visibility: hidden;">+1</p>
 
+		<p align="center">Digite a tradução da palavra: <input id="entradaVerifica" type=text autocomplete="off"> <input type=button value="verificar" onclick="verificarPalavra(); document.getElementById('entradaVerifica').focus();"> <input type=button value="buscar" onmousedown="buscarsignificado();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"></p>
 		<p align="center"><textarea id="arqdicionario" rows="4" cols="50" placeholder="Copie e cole seu dicionário aqui..."></textarea></p>
 		<p align="center"> <input type=button value="Exportar" onclick="exportar();"> <input type=button value="Importar" onclick="importar();"> </p>
 		
 		<script>
-			document.getElementById('saidaGeral').innerHTML = "Use 'Enter' e 'Seta direita' para maior praticidade<br>'Seta cima' se souber a palavra";
+			document.getElementById('saidaGeral').innerHTML = "Use 'Seta cima' se souber a palavra e 'Seta direita' para espiar";
 			randomPalavra();
 			//verificarSistema();
 		</script>
