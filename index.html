@@ -3,6 +3,85 @@
 		<title>
 			ML War of Meanings
 		</title>
+		<style>
+
+.button1 {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button1 span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button1 span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button1:hover span {
+  padding-right: 25px;
+}
+
+.button1:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.button2 {
+  border-radius: 4px;
+  position: relative;
+  background-color: #4CAF50;
+  border: none;
+  font-size: 28px;
+  color: #FFFFFF;
+  padding: 20px;
+  width: 200px;
+  text-align: center;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.button2:after {
+  content: "";
+  background: #f1f1f1;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+.button2:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
+}
+
+        	</style>
 		<script>
 			class Dicionario {
 				constructor(lingua, palavras){
@@ -1461,7 +1540,7 @@
 					
 				</td>
 		</table>
-		<p align="center"><input type=button value="sei" onclick="acertou('Se sabe parabéns!');"> <input type=button value="espiar" onmousedown="esquerda();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"></p>
+		<p align="center"> <button class="button2" style="vertical-align:middle" onclick="acertou('Se sabe parabéns!');">Sei</button> <button class="button1" style="vertical-align:middle" onmousedown="adicionarPalavraAtual(); esquerda();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"><span>Espiar </span></button></p>
 		<font size="5" color="mediumseagreen"><p align="center" id="saidaVerifica"></p></font>
 		<font size="5" color="mediumseagreen"><p align="center" id="saidaGeral"></p></font>
 		<p id="ponto" style="position: fixed; top: 420; left: 625; color: mediumseagreen; font-size: 20; visibility: hidden;">+1</p>
