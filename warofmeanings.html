@@ -5618,8 +5618,16 @@
 			}
 
 			function exportarParaGoogleTradutor(){
-				for(let i = 0; i < palavra[0].length; i++){
-					document.getElementById("arqdicionario").value += "|" + palavra[1][i] + "|" + palavra[0][i];
+				document.getElementById("arqdicionario").value = "";
+				if(idioma.options[idioma.selectedIndex].value == "ingles"){
+					for(let i = 0; i < palavra[0].length; i++){
+						document.getElementById("arqdicionario").value += "|" + palavra[1][i] + "|" + palavra[0][i];
+					}
+				}
+				else if(idioma.options[idioma.selectedIndex].value == "portugues"){
+					for(let i = 0; i < palavra[0].length; i++){
+						document.getElementById("arqdicionario").value += "|" + palavra[0][i] + "|" + palavra[1][i];
+					}
 				}
 				
 				document.getElementById('arqdicionario').focus();
