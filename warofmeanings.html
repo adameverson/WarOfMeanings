@@ -5618,15 +5618,29 @@
 			}
 
 			function exportarParaGoogleTradutor(){
+				var auxpalavra = [dicionarioDePortugues.palavras.slice(), dicionarioDeIngles.palavras.slice()];
+				var auxpalavracount = auxpalavra[0].length;
+				var auxidpalavramin = 0;
+				var auxidpalavramax = auxpalavracount - 1;
+				var auxidpalavra = getRandomIntInclusive(auxidpalavramin, auxidpalavramax);			
+
 				document.getElementById("arqdicionario").value = "";
 				if(idioma.options[idioma.selectedIndex].value == "ingles"){
-					for(let i = 0; i < palavra[0].length; i++){
-						document.getElementById("arqdicionario").value += "|" + palavra[1][i] + "|" + palavra[0][i];
+					for(let i = 0; i < auxpalavracount; i++){
+						document.getElementById("arqdicionario").value += "|" + auxpalavra[1][auxidpalavra] + "|" + auxpalavra[0][auxidpalavra];
+						auxpalavra[0].splice(auxidpalavra, 1);
+						auxpalavra[1].splice(auxidpalavra, 1);
+						auxidpalavramax--;
+						auxidpalavra = getRandomIntInclusive(auxidpalavramin, auxidpalavramax);	
 					}
 				}
 				else if(idioma.options[idioma.selectedIndex].value == "portugues"){
-					for(let i = 0; i < palavra[0].length; i++){
-						document.getElementById("arqdicionario").value += "|" + palavra[0][i] + "|" + palavra[1][i];
+					for(let i = 0; i < auxpalavracount; i++){
+						document.getElementById("arqdicionario").value += "|" + auxpalavra[0][auxidpalavra] + "|" + auxpalavra[1][auxidpalavra];
+						auxpalavra[0].splice(auxidpalavra, 1);
+						auxpalavra[1].splice(auxidpalavra, 1);
+						auxidpalavramax--;
+						auxidpalavra = getRandomIntInclusive(auxidpalavramin, auxidpalavramax);	
 					}
 				}
 				
@@ -5669,6 +5683,8 @@
 				}
 				idpalavramax = palavra[1].length - 1;
 				console.log("Sistema Reparado!");
+
+				randomPalavra();
 			}
 
 			function adicionarPalavraAtual(){
