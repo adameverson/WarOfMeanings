@@ -5617,6 +5617,14 @@
 				randomPalavra();
 			}
 
+			function exportarParaGoogleTradutor(){
+				for(let i = 0; i < palavra[0].length; i++){
+					document.getElementById("arqdicionario").value += "|" + palavra[1][i] + "|" + palavra[0][i];
+				}
+				
+				document.getElementById('arqdicionario').focus();
+			}
+
 			function alterarIdioma(){
 				if(idioma.options[idioma.selectedIndex].value == "ingles")
 					id = 1; 
@@ -5771,7 +5779,7 @@
 
 		<p align="center">Digite a tradução da palavra: <input id="entradaVerifica" type=text autocomplete="off"> <input type=button value="verificar" onclick="verificarPalavra(); document.getElementById('entradaVerifica').focus();"> <input type=button value="buscar" onmousedown="buscarsignificado();" onmouseup="direita(); document.getElementById('entradaVerifica').focus();" onmouseleave="direita(); document.getElementById('entradaVerifica').focus();"></p>
 		<p align="center"><textarea id="arqdicionario" rows="4" cols="50" placeholder="Copie e cole seu dicionário aqui..."></textarea></p>
-		<p align="center"> <input type=button value="Exportar" onclick="exportar();"> <input type=button value="Importar" onclick="importar();"> </p>
+		<p align="center"> <input type=button value="Exportar" onclick="exportar();"> <input type=button value="Importar" onclick="importar();"> <input type=button value="Exportar para Google Tradutor" onclick="exportarParaGoogleTradutor();"> </p>
 		
 		<script>
 			document.getElementById('saidaGeral').innerHTML = "Use 'Seta cima' se souber a palavra e 'Seta direita' para espiar";
